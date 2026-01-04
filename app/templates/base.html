@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>{% block title %} To-Do-App {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container" header-content>
+            <div class="logo">TaskPro</div>
+                <h1>To-Do-App</h1>
+                <nav>
+                    <a href ="{{ url_for('tasks.view_tasks') }}">Tasks</a>
+                    {% if 'user' in session %}
+                        <a href ="{{ url_for('auth.logout') }}">Logout</a>
+                    {% else %}
+                        <a href ="{{ url_for('auth.login') }}">Login</a>
+                        <a href ="{{ url_for('auth.register') }}">Register</a>
+                    {% endif %}
+                </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}
+            
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 To-Do-App. Flask is used.</p>
+        </div>
+</body>
+</html>
